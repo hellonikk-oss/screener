@@ -51,6 +51,7 @@ with sync_playwright() as p:
             all_complain.click()
             page.on('download', download_handle)   
             page.wait_for_selector('input#ctl00_ContentPlaceHolder1_btnExelExport').click()
+            page.wait_for_timeout(5000)
                             
                     
         except Exception as inner_e:

@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 from requests import delete
 state_file = 'state_CM.json'
 if os.path.exists(state_file):
@@ -13,30 +14,30 @@ with sync_playwright() as p:
 
     try:
         print("Opening login page...")
-        page.goto('https://cmhelpline.mp.gov.in/MIS/Default.aspx', timeout=30000)
+        page.goto('https://cmhelpline.mp.gov.in/MIS/Default.aspx', timeout=3000)
         page.wait_for_load_state('networkidle')
         print("Login page opened.")
 
         # Enter username
-        username = page.wait_for_selector('//input[@id="txtUser"]', timeout=10000)
-        username.fill('REV_TAH_BARE_JAB')
+        username = page.wait_for_selector('//input[@id="txtUser"]', timeout=3000)
+        username.fill(os.getenv('CMHELIPLINE_USENAME'))
         print("Username entered.")
 
         # Enter password
-        password = page.wait_for_selector('//input[@id="txtPass"]', timeout=10000)
-        password.fill('71671')
+        password = page.wait_for_selector('//input[@id="txtPass"]', timeout=3000)
+        password.fill(os.getenv('CMHELPLINE_PASSWORD'))
         print("Password entered.")
 
         # Wait for CAPTCHA input
         print("Please enter the CAPTCHA displayed on the screen.")
         captcha_input = input("Enter CAPTCHA: ")
-        captcha_field = page.wait_for_selector('//input[@id="txtCaptcha"]', timeout=10000)
+        captcha_field = page.wait_for_selector('//input[@id="txtCaptcha"]', timeout=3000)
         captcha_field.fill(captcha_input)
         print("CAPTCHA entered.")
 
         # Click submit button
         try:
-            button = page.wait_for_selector("//input[@id='btnsubmit']", timeout=10000)
+            button = page.wait_for_selector("//input[@id='btnsubmit']", timeout=3000)
             button.click()
             print("Login button clicked.")
         except Exception as e:
