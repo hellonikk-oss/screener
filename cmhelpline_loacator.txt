@@ -1,0 +1,22 @@
+
+cmhelpline l-1 complain download
+
+#शिकायत जिस पर कार्यवाही जारी हैं
+        //a[@id='WIPLink']
+ #देखें 
+//a[contains(@href, 'complaintlist.aspx?type=1')]
+#excel download
+     input#ctl00_ContentPlaceHolder1_btnExport
+#dashboard
+        //a[@href='../MIS/dashboard.aspx']
+
+        #उच्च लेवल पर लंबित शिकायतें
+
+        //div[contains(@class, 'cm-box-green') and .//span[text()='उच्च लेवल पर लंबित शिकायतें']]
+        #L2
+        //table[contains(@class, 'cm-margin-top-60') and contains(@class, 'table-hover')]//tr[1]//td[2]
+        #l3
+        //table[contains(@class, 'cm-margin-top-60') and contains(@class, 'table-hover')]//tr[1]//td[3]
+        #l4
+        //table[contains(@class, 'cm-margin-top-60') and contains(@class, 'table-hover')]//tr[1]//td[4]
+       

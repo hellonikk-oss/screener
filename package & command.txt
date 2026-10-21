@@ -1,0 +1,13 @@
+python -m venv env
+.\env\Scripts\Activate.ps1
+python codegen_demo.py
+pip install playwright
+pip install pytest-playwright
+playwright install
+pip install pandas openpyxl beautifulsoup4
+playwright codegen "https://webgis2.mpbhulekh.gov.in/#/home/reports"
+ git initgit commit -m "first commit"
+ git config --global user.email "hellonikk@gmail.com"
+  git config --global user.name "nikhil kumar"
+  git remote add origin https://github.com/hellonikk-oss/screener.git
+  git push -u origin main
