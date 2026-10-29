@@ -20,3 +20,48 @@ cmhelpline l-1 complain download
         #l4
         //table[contains(@class, 'cm-margin-top-60') and contains(@class, 'table-hover')]//tr[1]//td[4]
        
+
+
+
+
+
+       dhan uparjan
+       url = https://mpeuparjan.mp.gov.in/euparjanmp/PPMS2026/District/frm_SDM_Teh_Verification.aspx
+
+        seclect District
+        select#ddl_District  value= 2333
+        select telsildar 
+        select#ddl_Tehsil  value =20
+        generate otp
+        #lbGenerateOTP
+        enter otp 
+        //input[@id='txtotp']
+         enter password
+         //input[@id='txtpwd']
+
+        ener captcha 
+        //input[@id='txtCaptcha']
+         login button submit
+         //a[@id='btnlogin']
+
+
+
+       2 hect
+       input#btn_Q.tablink
+        dropdown
+        select#ddlvill
+
+        table
+        table#gvFarmerLR
+
+        send otp 
+        input#btnGenOTP
+        textbox otp
+        input#txtOtp
+
+        chceckbox
+        input#chkAgree
+
+        khasra satyapit
+
+        input#btnUpdatePerInfo

@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 import os
+from download_excel import download_file
 #L-1 complain download function
 os.makedirs('cmhelpline', exist_ok=True)
 def download_handle(download):
@@ -16,7 +17,7 @@ with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)
     
     # Check if state.json exists
-    if not os.path.exists("state_CM.json"):
+    if not os.path.exists("./cmhelpline_code/state_CM.json"):
         print("Error: state.json not found!")
         print("Please run storage_state_cmhelpline.py first to create the session")
         browser.close()
@@ -30,7 +31,7 @@ with sync_playwright() as p:
         # Use saved session with custom User-Agent
         print("\n1. Creating context with saved session and custom User-Agent...")
         context = browser.new_context(
-            storage_state="state_CM.json",
+            storage_state="./cmhelpline_code/state_CM.json",
             #user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
         )
         page = context.new_page()
@@ -49,10 +50,37 @@ with sync_playwright() as p:
             L1.click(force=True)
             all_complain=page.wait_for_selector("//a[contains(@href,'complaintlist.aspx?type=1')]", timeout=5000)
             all_complain.click()
+            
             page.on('download', download_handle)   
             page.wait_for_selector('input#ctl00_ContentPlaceHolder1_btnExelExport').click()
             page.wait_for_timeout(5000)
-            page.goto('https://cmhelpline.mp.gov.in/MIS/dashboard.aspx', timeout=30000)         
+            page.goto('https://cmhelpline.mp.gov.in/MIS/dashboard.aspx', timeout=10000)   
+            high_level_page = page.wait_for_selector("//a[@href='TimeLimitExceededcomplaints.aspx']//div[@class='cm-box-green']", timeout=10000)
+            high_level_page.click(force=True)
+            levels = [
+                            ('L2', 2, './cmhelpline/cmhelpline_L2.xls'),
+                            ('L3', 3, './cmhelpline/cmhelpline_L3.xls'),
+                            ('L4', 4, './cmhelpline/cmhelpline_L4.xls')
+                        ]
+            
+            for name, col_idx, save_path in levels:
+                            # print(f"\n--- Downloading {name} ---")
+                            if "TimeLimitExceededcomplaints.aspx" not in page.url or "TimeLimitExceededcomplaints_AttriWise.aspx" in page.url:
+                                page.goto('https://cmhelpline.mp.gov.in/MIS/TimeLimitExceededcomplaints.aspx', timeout=30000)
+                                page.wait_for_load_state('networkidle', timeout=15000)
+            
+                            td_link = page.wait_for_selector(
+                                f"//table[contains(@class, 'cm-margin-top-60') and contains(@class, 'table-hover')]//tr[1]//td[{col_idx}]//a",
+                                timeout=10000
+                            )
+                            td_link.click()
+                            page.wait_for_load_state('networkidle', timeout=15000)
+            
+                            download_file(
+                                page=page,
+                                locator='input#ctl00_ContentPlaceHolder1_btnExelExport',
+                                save_path=save_path
+                            )     
                     
         except Exception as inner_e:
                     print(f"\n✗ Error during error handling: {inner_e}")

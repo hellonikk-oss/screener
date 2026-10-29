@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from requests import delete
-state_file = 'state_CM.json'
+state_file = './cmhelpline_code/state_CM.json'
 if os.path.exists(state_file):
     os.remove(state_file)
     
@@ -49,12 +49,12 @@ with sync_playwright() as p:
         print("Login successful.")
 
         # Save session state
-        context.storage_state(path='state_CM.json')
-        print("Session state saved to state.json.")
+        context.storage_state(path='./cmhelpline_code/state_CM.json')
+        print("Session state saved to ./cmhelpline_code/state_CM.json")
 
     except Exception as e:
         print("An error occurred:", e)
-        page.screenshot(path='error_screenshot.png')
+        page.screenshot(path='./cmhelpline_code/error_screenshot.png')
         print("Screenshot saved as error_screenshot.png for debugging.")
 
     finally:
