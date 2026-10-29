@@ -24,11 +24,11 @@ with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)
     
     # Check if state.json exists
-    if not os.path.exists("state_CM.json"):
-        print("Error: state.json not found!")
-        print("Please run storage_state_cmhelpline.py first to create the session")
-        browser.close()
-        exit()
+    if not os.path.exists("./cmhelpline_code/state_CM.json"):
+            print("Error: state.json not found!")
+            print("Please run storage_state_cmhelpline.py first to create the session")
+            browser.close()
+            exit()
     
     try:
         print("=" * 60)
@@ -38,7 +38,7 @@ with sync_playwright() as p:
         # Use saved session with custom User-Agent
         print("\n1. Creating context with saved session and custom User-Agent...")
         context = browser.new_context(
-            storage_state="state_CM.json",
+            storage_state="./cmhelpline_code/state_CM.json",
             #user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
         )
         page = context.new_page()
@@ -94,6 +94,7 @@ with sync_playwright() as p:
                 )
                 td_link.click()
                 page.wait_for_load_state('networkidle', timeout=15000)
+                page.wait_for_selector(f"//a[@href='TimeLimitExceededcomplaintsByOfficerLevel.aspx?OfficrLevel2={name}']", timeout=15000).click()
 
                 download_file(
                     page=page,

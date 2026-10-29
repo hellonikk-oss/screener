@@ -50,9 +50,9 @@ with sync_playwright() as p:
             L1.click(force=True)
             all_complain=page.wait_for_selector("//a[contains(@href,'complaintlist.aspx?type=1')]", timeout=5000)
             all_complain.click()
-            
+            page.wait_for_load_state('networkidle', timeout=5000)
             page.on('download', download_handle)   
-            page.wait_for_selector('input#ctl00_ContentPlaceHolder1_btnExelExport').click()
+            page.wait_for_selector('input#ctl00_ContentPlaceHolder1_btnExelExport',timeout=20000).click()
             page.wait_for_timeout(5000)
             page.goto('https://cmhelpline.mp.gov.in/MIS/dashboard.aspx', timeout=10000)   
             high_level_page = page.wait_for_selector("//a[@href='TimeLimitExceededcomplaints.aspx']//div[@class='cm-box-green']", timeout=10000)
