@@ -14,8 +14,7 @@ def get_source_file_path():
         if os.path.exists(path):
             return path
     raise FileNotFoundError(
-        f"Could not find {' or '.join(candidates)} in '{folder_name}'."
-    )
+        f"Could not find {' or '.join(candidates)} in '{folder_name}'." )
 
 def load_source_rows(source_path):
     with open(source_path, 'rb') as f:

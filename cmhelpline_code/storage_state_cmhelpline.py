@@ -14,12 +14,12 @@ with sync_playwright() as p:
 
     try:
         print("Opening login page...")
-        page.goto('https://cmhelpline.mp.gov.in/MIS/Default.aspx', timeout=3000)
+        page.goto('https://cmhelpline.mp.gov.in/MIS/Default.aspx', timeout=10000)
         page.wait_for_load_state('networkidle')
         print("Login page opened.")
 
         # Enter username
-        username = page.wait_for_selector('//input[@id="txtUser"]', timeout=3000)
+        username = page.wait_for_selector('//input[@id="txtUser"]', timeout=10000)
         username.fill(os.getenv('CMHELIPLINE_USENAME'))
         print("Username entered.")
 
@@ -45,7 +45,7 @@ with sync_playwright() as p:
             raise
 
         # Wait for successful login
-        page.wait_for_load_state('networkidle', timeout=15000)
+        page.wait_for_load_state('networkidle', timeout=30000)
         print("Login successful.")
 
         # Save session state
